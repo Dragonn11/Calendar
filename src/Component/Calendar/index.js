@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import moment from 'moment';
 import './calendar.css';
+import MonthComponent from '../month/MonthComponent';
 class Calender extends Component{
 
     constructor(props){
@@ -85,40 +86,8 @@ class Calender extends Component{
     selectMonth=(e,month)=>{
         this.setMonth(month); 
     }  
-    MonthList=(props)=>{
-        let pop=props.data.map(d=>{
-            return(
-                <div key={d*34}> <a href={'#'+d} onClick={(e)=>{this.selectMonth(e,d)}}>{d}</a></div>
-            )
-        })
-        return(
-            <div className="month-popup">{pop}</div>
-        )
-    }
-
-//////////////////////////////////action on month change logic/////////////////////////////////////
    
 
-
-     NavigateMonth= () =>{
-         //////////////////// Navigate month component//////////////////////
-        return(
-            <span className="label-month" onClick={(e)=>{this.changeMonth(e,this.month())}}>
-                {this.month()}
-                {this.state.showMonth && 
-                <this.MonthList data={this.Months}/>}
-            </span>
-        )
-    }
-
-    changeMonth=(e,month)=>{
-        this.setState({
-            showMonth:!this.state.showMonth
-        })
-
-    }
-
-////////////////////////////////Year drop down logic////////////////////////////////////////////////
     changeYear=(e)=>{
 
         let momentText=Object.assign({},this.state.momentText);
@@ -235,7 +204,8 @@ class Calender extends Component{
                 <thead>
                     <tr className="calendar-header">
                     <td colSpan='5'>
-                        <this.NavigateMonth />
+                        {/* <this.NavigateMonth /> */}
+                        <MonthComponent month={this.month()} handleSelectMonth={this.selectMonth}/>
                         {" "}
                         <this.NavigateYear/>
                     </td>
