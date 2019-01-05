@@ -1,18 +1,10 @@
 import React,{Component} from 'react';
 import moment from 'moment';
 import './calendar.css';
-
-
-
 class Calender extends Component{
 
     constructor(props){
         super(props)
-
-        this.width=props.width || "350px";
-        this.style = props.style || {};
-        this.style.width = this.width; 
-
         this.state={
             momentText:moment(),
             curr_day:moment(),
@@ -26,7 +18,7 @@ class Calender extends Component{
     Years = new Date().getFullYear();
 
     UNSAFE_componentWillMount(){
-
+        //page refresh and reload logic
         if (window.performance) {
             if (performance.navigation.type === 1) {
                
@@ -40,9 +32,6 @@ class Calender extends Component{
           }
 
       }
-
-
-   
 
     year = () => {
         return this.state.momentText.format("Y");
@@ -60,7 +49,7 @@ class Calender extends Component{
     currentDay = () => {
         return this.state.momentText.format("D");
     }
-
+////////////////////showing the hidden dates of the month//////////////////
     firstday=()=>{
         let earlyDays=[];
         let firstday=moment(this.state.momentText).startOf('month').format('d');
@@ -83,7 +72,7 @@ class Calender extends Component{
         }
         return lastDays;
     }
-
+/////////////////////////////Month Dropdown list logic//////////////////////////////////////////////
     setMonth=(month)=>{
         let momentText=Object.assign({},this.state.momentText);
         let currMonth=this.Months.indexOf(month);
@@ -91,12 +80,11 @@ class Calender extends Component{
         this.setState({
             momentText:momentText
         })
-        setTimeout(()=>{
-            console.log(window.location.href)
-        },1000)
        
-
     }
+    selectMonth=(e,month)=>{
+        this.setMonth(month); 
+    }  
     MonthList=(props)=>{
         let pop=props.data.map(d=>{
             return(
@@ -108,14 +96,12 @@ class Calender extends Component{
         )
     }
 
+//////////////////////////////////action on month change logic/////////////////////////////////////
+   
 
-    selectMonth=(e,month)=>{
-          
-        this.setMonth(month);   
-        
 
-    }  
      NavigateMonth= () =>{
+         //////////////////// Navigate month component//////////////////////
         return(
             <span className="label-month" onClick={(e)=>{this.changeMonth(e,this.month())}}>
                 {this.month()}
@@ -132,7 +118,7 @@ class Calender extends Component{
 
     }
 
-
+////////////////////////////////Year drop down logic////////////////////////////////////////////////
     changeYear=(e)=>{
 
         let momentText=Object.assign({},this.state.momentText);
@@ -147,13 +133,13 @@ class Calender extends Component{
     YearList=()=>{
            return(
             Array.from( new Array(50), (v,i) =>
-            <option key={i} value={this.Years+i}>{this.Years+i}</option>
+            <option key={i*89} value={this.Years+i}>{this.Years+i}</option>
            )
            )
     }
 
     NavigateYear=()=>{
-        console.log(this.Years)
+     ////////////////navigate year component///////////////////////////////
         return(
             <span className="label-year">
                 {this.year()}
@@ -161,13 +147,12 @@ class Calender extends Component{
                 <select onChange={this.changeYear}>
                      {this.YearList()}
                      </select>
-      	              
-                
-
             </span>
         )
     }
+//////////////////////////////////////////////////////////////////////////////////////////////
 
+///////////////////////////Navigation arrow logic left and right////////////////////////////
 
     nxtMonth = () => {
         let Context = Object.assign({}, this.state.momentText);
@@ -177,9 +162,6 @@ class Calender extends Component{
         this.setState({
             momentText: Context
         });
-         
-
-        // this.props.onNextMonth && this.props.onNextMonth();
     }
 
     prevMonth = () => {
@@ -188,10 +170,10 @@ class Calender extends Component{
         this.setState({
             momentText: Context
         });
-        // this.props.onPrevMonth && this.props.onPrevMonth();
+       
     }
 
-  
+  /////////////////////////////////////////////////////////////////////////////////////
 
 
     render(){
@@ -209,7 +191,7 @@ class Calender extends Component{
 
         let lastHiddenDates=[];
         for(let i=0;i<this.lastday().length;i++){
-            lastHiddenDates.push(<td key={i*45} style={{color:'grey'}}>{this.lastday()[i]}</td>)
+            lastHiddenDates.push(<td key={i*65} style={{color:'grey'}}>{this.lastday()[i]}</td>)
         }
 
         let monthDays=[];
@@ -247,7 +229,7 @@ class Calender extends Component{
 
        
         return(
-            <div className="calendar-container"  style={this.style}>
+            <div className="calendar-container"  style={{position:'relative', margin:'50px auto' ,width:'350px'}}>
                 <table className="calendar">
 
                 <thead>
