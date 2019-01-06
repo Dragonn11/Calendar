@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import moment from 'moment';
 import './calendar.css';
 import MonthComponent from '../month/MonthComponent';
+import YearComponent from '../year/YearComponent';
 class Calender extends Component{
 
     constructor(props){
@@ -16,7 +17,6 @@ class Calender extends Component{
     }
     Days=moment.weekdaysShort();
     Months=moment.months();
-    Years = new Date().getFullYear();
 
     UNSAFE_componentWillMount(){
         //page refresh and reload logic
@@ -73,7 +73,7 @@ class Calender extends Component{
         }
         return lastDays;
     }
-/////////////////////////////Month Dropdown list logic//////////////////////////////////////////////
+
     setMonth=(month)=>{
         let momentText=Object.assign({},this.state.momentText);
         let currMonth=this.Months.indexOf(month);
@@ -98,29 +98,6 @@ class Calender extends Component{
         })
 
     }
-
-    YearList=()=>{
-           return(
-            Array.from( new Array(50), (v,i) =>
-            <option key={i*89} value={this.Years+i}>{this.Years+i}</option>
-           )
-           )
-    }
-
-    NavigateYear=()=>{
-     ////////////////navigate year component///////////////////////////////
-        return(
-            <span className="label-year">
-                {this.year()}
-                
-                <select onChange={this.changeYear}>
-                     {this.YearList()}
-                     </select>
-            </span>
-        )
-    }
-//////////////////////////////////////////////////////////////////////////////////////////////
-
 ///////////////////////////Navigation arrow logic left and right////////////////////////////
 
     nxtMonth = () => {
@@ -149,13 +126,13 @@ class Calender extends Component{
        
         let days=this.Days.map(d=>{
             return(
-                <td key={d*50} className="week-day">{d}</td>
+                <td key={d*899} className="week-day">{d}</td>
             )
         })
 
         let hiddenDates=[];
         for(let i=0;i<this.firstday().length;i++){
-            hiddenDates.push(<td key={i*45} style={{color:'grey'}}>{this.firstday()[i]}</td>)
+            hiddenDates.push(<td key={i*425} style={{color:'grey'}}>{this.firstday()[i]}</td>)
         }
 
         let lastHiddenDates=[];
@@ -166,7 +143,7 @@ class Calender extends Component{
         let monthDays=[];
         for(let i=1;i<=this.monthDays();i++){
             let className=(i===this.currentDay()?"day current-day":"day")
-            monthDays.push(<td key={i*80} className={className}><span>{i}</span></td>)
+            monthDays.push(<td key={i*864} className={className}><span>{i}</span></td>)
         }
 
         let totalCells=[...hiddenDates,...monthDays,...lastHiddenDates];
@@ -192,7 +169,7 @@ class Calender extends Component{
         let actualDays=rows.map((d,i)=>{
 
             return (
-                <tr key={i*9}>{d}</tr>
+                <tr key={i*77}>{d}</tr>
             )
         })
 
@@ -204,10 +181,9 @@ class Calender extends Component{
                 <thead>
                     <tr className="calendar-header">
                     <td colSpan='5'>
-                        {/* <this.NavigateMonth /> */}
                         <MonthComponent month={this.month()} handleSelectMonth={this.selectMonth}/>
                         {" "}
-                        <this.NavigateYear/>
+                        <YearComponent year={this.year()} changeYear={this.changeYear}/>
                     </td>
                     <td colSpan="2" className="nav-month">
                         <i className="prev fa fa-fw fa-chevron-left" onClick={(e)=>{this.prevMonth(e)}}></i>

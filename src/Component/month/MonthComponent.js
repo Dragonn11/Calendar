@@ -22,7 +22,7 @@ class MonthComponent extends Component{
     }
     
     render(){
-        console.log(this.props.month)
+        
         return(
             <span className="label-month" onClick={(e)=>{this.changeMonth(e,this.props.month)}}>
                 {this.props.month}
